@@ -1,0 +1,84 @@
+{
+  "local-windows-laptop": {
+    "label": "local-windows-laptop",
+    "measured_at": "2026-09-26T02:13:08.979283+00:00",
+    "url": "http://127.0.0.1:8000",
+    "model_version": "xgboost-20260926T021020Z-111b5dba",
+    "client_host": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.1"
+    },
+    "single_prediction": {
+      "requests": 2000,
+      "concurrency": 1,
+      "throughput_rps": 87.2,
+      "client_round_trip_ms": {
+        "mean": 11.448,
+        "p50": 10.896,
+        "p95": 15.398,
+        "p99": 18.787,
+        "max": 89.265
+      },
+      "server_processing_ms": {
+        "mean": 5.203,
+        "p50": 4.841,
+        "p95": 7.549,
+        "p99": 9.987,
+        "max": 22.619
+      }
+    },
+    "batch_prediction": {
+      "batch_size": 1000,
+      "rounds": 20,
+      "round_trip_ms": {
+        "mean": 144.558,
+        "p50": 141.954,
+        "p95": 175.645,
+        "p99": 177.617,
+        "max": 178.11
+      },
+      "rows_per_second_at_p50": 7045
+    }
+  },
+  "docker-linux-container": {
+    "label": "docker-linux-container",
+    "measured_at": "2026-09-26T02:31:28.070420+00:00",
+    "url": "http://127.0.0.1:8000",
+    "model_version": "xgboost-20260926T022725Z-8091ce5f",
+    "client_host": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.1"
+    },
+    "single_prediction": {
+      "requests": 2000,
+      "concurrency": 1,
+      "throughput_rps": 100.3,
+      "client_round_trip_ms": {
+        "mean": 9.957,
+        "p50": 9.38,
+        "p95": 13.811,
+        "p99": 16.947,
+        "max": 37.322
+      },
+      "server_processing_ms": {
+        "mean": 2.482,
+        "p50": 2.254,
+        "p95": 3.918,
+        "p99": 6.054,
+        "max": 8.416
+      }
+    },
+    "batch_prediction": {
+      "batch_size": 1000,
+      "rounds": 20,
+      "round_trip_ms": {
+        "mean": 99.606,
+        "p50": 99.255,
+        "p95": 128.703,
+        "p99": 133.517,
+        "max": 134.72
+      },
+      "rows_per_second_at_p50": 10075
+    }
+  }
+}

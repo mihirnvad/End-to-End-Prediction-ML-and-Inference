@@ -1,0 +1,21 @@
+[project]
+name = "churn-prediction-service"
+version = "1.0.0"
+description = "End-to-end churn prediction: leakage-free sklearn/XGBoost pipeline, calibrated FastAPI inference service, and Streamlit dashboard."
+requires-python = ">=3.12"
+
+[tool.black]
+line-length = 100
+target-version = ["py312", "py313"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+filterwarnings = [
+    # starlette's TestClient nags about its httpx backend; not actionable here.
+    "ignore:Using .httpx. with .starlette.testclient. is deprecated",
+]
+
+[tool.coverage.run]
+source = ["src", "app"]
+omit = ["src/evaluate.py"]

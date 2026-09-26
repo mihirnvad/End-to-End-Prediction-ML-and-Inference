@@ -1,0 +1,178 @@
+{
+  "model_version": "xgboost-20260926T021020Z-111b5dba",
+  "model_type": "xgboost",
+  "trained_at": "2026-09-26T02:10:20.391289+00:00",
+  "artifact_sha256": "111b5dbaed8bb25d64bd18c06ba07bcac224abe2ec675de21f27d54cff1770db",
+  "decision_threshold": 0.26,
+  "thresholds": {
+    "business_optimal": 0.26,
+    "f1_optimal": 0.37,
+    "bayes_optimal_calibrated": 0.25
+  },
+  "calibration": {
+    "method": "platt_on_oof_log_odds",
+    "slope": 1.0439299608854957,
+    "intercept": 0.03573393990858889
+  },
+  "hyperparameters": {
+    "colsample_bytree": 0.5451448850272042,
+    "gamma": 0.835302495589238,
+    "learning_rate": 0.03817088283032736,
+    "max_depth": 4,
+    "min_child_weight": 3,
+    "n_estimators": 347,
+    "reg_lambda": 1.1793441336715986,
+    "subsample": 0.727084366647942
+  },
+  "features": {
+    "numeric": [
+      "age",
+      "tenure_months",
+      "monthly_charges",
+      "total_charges",
+      "num_support_tickets",
+      "avg_monthly_usage_gb",
+      "days_since_last_login",
+      "num_addon_services",
+      "satisfaction_score",
+      "late_payments_12m"
+    ],
+    "categorical": [
+      "contract_type",
+      "payment_method",
+      "internet_service",
+      "plan_tier",
+      "region"
+    ],
+    "boolean": [
+      "paperless_billing",
+      "has_partner"
+    ],
+    "engineered": [
+      "avg_monthly_spend",
+      "charge_increase_pct",
+      "is_early_tenure"
+    ],
+    "category_levels": {
+      "contract_type": [
+        "month_to_month",
+        "one_year",
+        "two_year"
+      ],
+      "payment_method": [
+        "electronic_check",
+        "mailed_check",
+        "bank_transfer",
+        "credit_card"
+      ],
+      "internet_service": [
+        "fiber_optic",
+        "dsl",
+        "no_internet"
+      ],
+      "plan_tier": [
+        "basic",
+        "standard",
+        "premium"
+      ],
+      "region": [
+        "northeast",
+        "southeast",
+        "midwest",
+        "southwest",
+        "west"
+      ]
+    },
+    "defaults": {
+      "age": 44.0,
+      "tenure_months": 20.0,
+      "monthly_charges": 77.32499999999999,
+      "total_charges": 1310.14,
+      "num_support_tickets": 0.0,
+      "avg_monthly_usage_gb": 103.8,
+      "days_since_last_login": 4.0,
+      "num_addon_services": 1.0,
+      "satisfaction_score": 3.0,
+      "late_payments_12m": 0.0,
+      "contract_type": "month_to_month",
+      "payment_method": "electronic_check",
+      "internet_service": "fiber_optic",
+      "plan_tier": "basic",
+      "region": "west",
+      "paperless_billing": true,
+      "has_partner": false
+    },
+    "ranges": {
+      "age": {
+        "min": 18.0,
+        "max": 85.0,
+        "p01": 18.0,
+        "p99": 76.0099999999984
+      },
+      "tenure_months": {
+        "min": 0.0,
+        "max": 72.0,
+        "p01": 0.0,
+        "p99": 72.0
+      },
+      "monthly_charges": {
+        "min": 15.0,
+        "max": 174.3,
+        "p01": 18.9599,
+        "p99": 133.76069999999987
+      },
+      "total_charges": {
+        "min": 0.0,
+        "max": 9830.78,
+        "p01": 0.0,
+        "p99": 7085.6633999999995
+      },
+      "num_support_tickets": {
+        "min": 0.0,
+        "max": 6.0,
+        "p01": 0.0,
+        "p99": 3.0
+      },
+      "avg_monthly_usage_gb": {
+        "min": 0.5,
+        "max": 2430.3,
+        "p01": 2.1,
+        "p99": 670.8859999999983
+      },
+      "days_since_last_login": {
+        "min": 0.0,
+        "max": 365.0,
+        "p01": 0.0,
+        "p99": 87.0
+      },
+      "num_addon_services": {
+        "min": 0.0,
+        "max": 6.0,
+        "p01": 0.0,
+        "p99": 5.0
+      },
+      "satisfaction_score": {
+        "min": 1.0,
+        "max": 5.0,
+        "p01": 1.0,
+        "p99": 5.0
+      },
+      "late_payments_12m": {
+        "min": 0.0,
+        "max": 10.0,
+        "p01": 0.0,
+        "p99": 3.0
+      }
+    }
+  },
+  "training_data": {
+    "n_train": 20000,
+    "n_test": 5000,
+    "train_churn_rate": 0.25605
+  },
+  "environment": {
+    "python": "3.13.1",
+    "scikit_learn": "1.9.1",
+    "xgboost": "3.4.1"
+  }
+}

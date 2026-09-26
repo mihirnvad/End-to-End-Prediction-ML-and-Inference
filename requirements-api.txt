@@ -1,0 +1,13 @@
+# Lean serving dependencies (API image). Versions pinned to the tested environment;
+# the model artifact must be loaded with the same scikit-learn / XGBoost it was trained with.
+numpy==2.5.3
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.9.1
+# Linux (Docker, CI): CPU-only wheel, avoids a ~300 MB NVIDIA NCCL dependency.
+xgboost-cpu==3.4.1; sys_platform == "linux"
+xgboost==3.4.1; sys_platform != "linux"
+joblib==1.6.0
+fastapi==0.141.1
+pydantic==2.13.5
+uvicorn[standard]==0.54.0

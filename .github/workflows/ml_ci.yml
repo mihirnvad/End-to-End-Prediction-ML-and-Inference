@@ -1,0 +1,92 @@
+name: ML CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.13"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install linters
+        run: pip install black==26.5.1 flake8==7.4.1
+      - name: black
+        run: black --check --diff .
+      - name: flake8
+        run: flake8 .
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Generate dataset
+        run: python data/generate_dataset.py
+      - name: Train (fast search) and evaluate
+        run: |
+          python src/train.py --fast
+          python src/evaluate.py --shap-samples 500
+      - name: Test suite (unit, API integration, model regression gates)
+        run: pytest -v --cov --cov-report=term-missing
+      - name: Upload model report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-report
+          path: |
+            artifacts/metrics.json
+            artifacts/model_metadata.json
+            artifacts/figures/
+          if-no-files-found: ignore
+
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: api
+          tags: churn-ml/api:ci
+          load: true
+          build-args: TRAIN_ARGS=--fast
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Smoke test container
+        run: |
+          docker run -d --name churn-api -p 8000:8000 churn-ml/api:ci
+          for i in $(seq 1 30); do
+            curl -fs http://localhost:8000/health && break
+            sleep 2
+          done
+          test "$(docker inspect -f '{{.Config.User}}' churn-api)" = "app"
+          curl -fs -X POST http://localhost:8000/predict \
+            -H 'content-type: application/json' \
+            -d '{"age":29,"tenure_months":4,"monthly_charges":94.5,"total_charges":310.2,"num_support_tickets":3,"avg_monthly_usage_gb":120.0,"days_since_last_login":21,"num_addon_services":0,"satisfaction_score":2,"late_payments_12m":1,"contract_type":"month_to_month","payment_method":"electronic_check","internet_service":"fiber_optic","plan_tier":"standard","region":"west","paperless_billing":true,"has_partner":false}'
+      - name: Container logs
+        if: always()
+        run: docker logs churn-api || true

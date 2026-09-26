@@ -1,0 +1,7 @@
+# Full stack: training, evaluation plots, dashboard. Includes the lean API set.
+-r requirements-api.txt
+shap==0.52.0
+matplotlib==3.11.2
+streamlit==1.64.0
+altair==6.3.0
+requests==2.34.2

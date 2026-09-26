@@ -1,0 +1,40 @@
+name: churn-ml
+
+x-build: &build
+  context: .
+  args:
+    # Set TRAIN_ARGS=--fast for a quicker (4-candidate) search during local iteration.
+    TRAIN_ARGS: ${TRAIN_ARGS:-}
+
+services:
+  api:
+    build:
+      <<: *build
+      target: api
+    image: churn-ml/api:latest
+    ports:
+      - "8000:8000"
+    environment:
+      LOG_LEVEL: INFO
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      <<: *build
+      target: dashboard
+    image: churn-ml/dashboard:latest
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://api:8000
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped

@@ -1,0 +1,17 @@
+# Artifacts and data are rebuilt inside the image (trainer stage).
+.git
+.github
+.venv
+venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.coverage
+htmlcov
+data/*.csv
+artifacts
+tests
+scripts
+*.md
+Dockerfile
+docker-compose.yml

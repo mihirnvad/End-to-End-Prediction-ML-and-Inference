@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Tooling
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+
+# Generated data (reproducible: python data/generate_dataset.py)
+data/*.csv
+
+# Model artifacts: binaries and prediction dumps are rebuilt by src/train.py.
+# The metrics report, metadata and figures are committed as a results snapshot.
+artifacts/*
+!artifacts/.gitkeep
+!artifacts/metrics.json
+!artifacts/model_metadata.json
+!artifacts/latency_benchmark.json
+!artifacts/figures/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local editor/agent config
+.claude/
